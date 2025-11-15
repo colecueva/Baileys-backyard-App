@@ -1,31 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:audioplayers/audioplayers.dart';
-import 'dart:async';
 import 'about_us.dart';
+import 'loading_screen.dart';
 
-void main() {
-  runApp(const BaileysBackyard());
-}
-
-class BaileysBackyard extends StatelessWidget {
-  const BaileysBackyard({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Bailey's Backyard",
-      theme: ThemeData(
-        primarySwatch: Colors.brown,
-        scaffoldBackgroundColor: Colors.white,
-      ),
-      debugShowCheckedModeBanner: false,
-      home: const HomeScreen(),
-    );
-  }
-}
-
-// 🏡 Symmetrical, responsive home screen
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -50,12 +27,12 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 10),
+                const SizedBox(height: 20),
 
-                // 🐾 Animation / Logo
+                // 🐾 Lottie Animation (centered)
                 Lottie.asset(
                   'assets/animations/paw_loading.json',
-                  width: size.width * 0.45,
+                  width: size.width * 0.5,
                   repeat: true,
                 ),
 
@@ -72,16 +49,20 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 8),
+                const SizedBox(height: 10),
+
                 const Text(
                   "A safe and happy space for every pup!",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16, color: Colors.brown),
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.brown,
+                  ),
                 ),
 
-                const SizedBox(height: 40),
+                const SizedBox(height: 50),
 
-                // 🎛️ Symmetrical buttons (responsive grid)
+                // 🎛️ Button Grid — symmetrical and adaptive
                 LayoutBuilder(
                   builder: (context, constraints) {
                     double buttonWidth = (constraints.maxWidth - 60) / 2;
@@ -154,6 +135,8 @@ class HomeScreen extends StatelessWidget {
                 ),
 
                 const SizedBox(height: 40),
+
+                // 🐾 Footer
                 const Text(
                   "© 2025 Bailey's Backyard",
                   style: TextStyle(color: Colors.brown),
@@ -193,113 +176,6 @@ class HomeScreen extends StatelessWidget {
             Icon(icon, size: 40),
             const SizedBox(height: 10),
             Text(label, style: const TextStyle(fontSize: 18)),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// 🕒 Loading Screen
-class LoadingScreen extends StatefulWidget {
-  const LoadingScreen({super.key});
-
-  @override
-  State<LoadingScreen> createState() => _LoadingScreenState();
-}
-
-class _LoadingScreenState extends State<LoadingScreen> {
-  @override
-  void initState() {
-    super.initState();
-    Timer(const Duration(seconds: 2), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const ConfirmationScreen(),
-        ),
-      );
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Lottie.asset(
-              'assets/animations/paw_loading.json',
-              width: 200,
-              height: 200,
-              repeat: true,
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              "Checking you in... 🐶",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// 🎉 Confirmation Screen
-class ConfirmationScreen extends StatefulWidget {
-  const ConfirmationScreen({super.key});
-
-  @override
-  State<ConfirmationScreen> createState() => _ConfirmationScreenState();
-}
-
-class _ConfirmationScreenState extends State<ConfirmationScreen> {
-  final AudioPlayer _player = AudioPlayer();
-
-  @override
-  void initState() {
-    super.initState();
-    _playSuccessSound();
-  }
-
-  Future<void> _playSuccessSound() async {
-    await _player.play(AssetSource('sounds/success.mp3'), volume: 0.4);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Welcome!"),
-        backgroundColor: Colors.brown,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.verified, color: Colors.green, size: 120),
-            const SizedBox(height: 20),
-            const Text(
-              "Welcome to Bailey's Backyard 🎉",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (_) => const HomeScreen()),
-                      (route) => false,
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.brown,
-                foregroundColor: Colors.white,
-              ),
-              child: const Text("Return Home"),
-            ),
           ],
         ),
       ),
